@@ -1,0 +1,31 @@
+{
+  "alarms": [
+    {
+      "title": "Its morning",
+      "time": "07:55",
+      "repeat": [
+        "Mon",
+        "Tue",
+        "Wed",
+        "Thu",
+        "Fri"
+      ],
+      "type": {
+        "Radio": "Sky-NL",
+        "Light": "1 minute"
+      }
+    },{
+      "title": "It's weekend _へ__(‾◡◝ )>",
+      "time": "17:44",
+      "repeat": [
+        "Sat",
+        "Sun"
+      ],
+      "type": {
+        "Buzzer": "101011",
+        "Radio": "Sky-NL",
+        "Light": "1 minute"
+      }
+    }
+  ]
+}
