@@ -5,7 +5,8 @@ import os
 import datetime
 import ctypes
 import platform
-import textwrap
+
+from clock.clock_font import normal_font, outline_font, superbig_font
 
 opsys = platform.platform()
 if opsys == 'Windows':
@@ -13,110 +14,9 @@ if opsys == 'Windows':
     # Changes terminal size
     os.system("mode con: cols=90 lines=11")
 
-list = [
-    textwrap.dedent('''
- $$$$$$\\
-$$$ __$$\\
-$$$$\ $$ |
-$$\$$\$$ |
-$$ \$$$$ |
-$$ |\$$$ |
-\$$$$$$  /
- \______/'''),
-    textwrap.dedent('''
-  $$\\
-$$$$ |
-\_$$ |
-  $$ |
-  $$ |
-  $$ |
-$$$$$$\\
-\______|'''),
-
-    textwrap.dedent('''
-  $$$$$$\\
-$$  __$$\\
-\__/  $$ |
- $$$$$$  |
-$$  ____/
-$$ |
-$$$$$$$$\\
-\________|'''),
-    textwrap.dedent('''
- $$$$$$\\
-$$ ___$$\\
-\_/   $$ |
-  $$$$$ /
-  \___$$\\
-$$\   $$ |
-\$$$$$$  |
- \______/'''),
-    textwrap.dedent('''
-$$\   $$\\
-$$ |  $$ |
-$$ |  $$ |
-$$$$$$$$ |
-\_____$$ |
-      $$ |
-      $$ |
-      \__|'''),
-    textwrap.dedent('''
-$$$$$$$\\
-$$  ____|
-$$ |
-$$$$$$$\\
-\_____$$\\
-$$\   $$ |
-\$$$$$$  |
- \______/ '''),
-    textwrap.dedent('''
- $$$$$$\\
-$$  __$$\\
-$$ /  \__|
-$$$$$$$\\
-$$  __$$\\
-$$ /  $$ |
- $$$$$$  |
- \______/ '''),
-    textwrap.dedent('''
-$$$$$$$$\\
-\____$$  |
-    $$  /
-   $$  /
-  $$  /
- $$  /
-$$  /
-\__/'''),
-    textwrap.dedent('''
- $$$$$$\\
-$$  __$$\\
-$$ /  $$ |
- $$$$$$  |
-$$  __$$<
-$$ /  $$ |
-\$$$$$$  |
- \______/ '''),
-    textwrap.dedent('''
- $$$$$$\\
-$$  __$$\\
-$$ /  $$ |
-\$$$$$$$ |
- \____$$ |
-$$\   $$ |
-\$$$$$$  |
- \______/ ''')
-]
-
-colon = '''
-
-  
-   $$\\
-   \__|
-   
-   $$\\
-   \__|'''
 messages = {}
 loopI = 0
+
 
 def setMsg(key, value):
     global messages
@@ -128,9 +28,12 @@ def removeMsg(key):
     messages.pop(key)
 
 
+font = outline_font
+
+
 def renderClock():
     global opsys
-    global list
+    global font
     global colon
     global loopI
 
@@ -142,24 +45,24 @@ def renderClock():
 
     ti = str(datetime.datetime.now())
     ti = ti[11:16]
-
-    lines = ["", "", "", "", "", "", "", "", ""]
+    font_height = font.height_in_lines
+    lines = [""] * (font_height + 1)
     line = 0
 
     numbers = [[], [], [], [], [], [], [], []]
     for x in range(5):
         if ti[x].isdigit():
             # print list[x]
-            numbers[x] = list[int(ti[x])].splitlines()
+            numbers[x] = font.numbers[int(ti[x])].splitlines()
         elif ti[x] == ":":
-            numbers[x] = colon.splitlines()
+            numbers[x] = font.colon.splitlines()
 
-    for x in range(9):
+    for x in range(font_height + 1):
         temp = ""
-        for i in range(9):
+        for i in range(font_height + 1):
             # print x,i
             try:
-                if i == 8:
+                if i == font_height:
                     temp += str(numbers[i][line])
                 else:
                     temp += str(numbers[i][line]).ljust(10)
@@ -170,11 +73,10 @@ def renderClock():
 
     # print lines
 
-    for x in range(9):
+    for x in range(font_height + 1):
         print(lines[x])
 
     print(getProperMsg(loopI))
-
 
 
 def getProperMsg(i):
