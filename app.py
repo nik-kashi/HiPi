@@ -25,7 +25,7 @@ for alarm in alarms:
 
 while True:
     checkForEvents()
-    clock.renderClock()
+    # clock.renderClock()
     tm1637clock.render()
     sleep(1)
     schedule.run_pending()
