@@ -9,6 +9,7 @@ import datetime
 import RPi.GPIO as GPIO
 import Adafruit_DHT
 from lib import tm1637
+from webservices.webservices import getOutdoorTemprature
 
 # Sensor should be set to Adafruit_DHT.DHT11,
 # Adafruit_DHT.DHT22, or Adafruit_DHT.AM2302.
@@ -70,7 +71,7 @@ def showIndoorWeather():
 
 
 def showOutdoorWeather():
-    temperature = -6
+    temperature = getOutdoorTemprature()
     temperature = int(temperature)
     firstNumber = "-" if temperature < 0 else int(temperature / 10)
     Display.Show(["o", "u", firstNumber, abs(temperature) % 10])
